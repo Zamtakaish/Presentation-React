@@ -25,8 +25,239 @@
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
+				<section>
+					<h1>React.js</h1>
+					<br>
+					<h3>Overview</h3>
+				</section>
+				<section>
+					<h2>What is React?</h2>
+					<br>
+					<img src="./images/1200px-React-icon.svg.png" alt="image" style ="width: 30%; background-color: transparent; box-shadow: none;">
+					<p><small>React is JavaScript libruary</small></p>
+					<p><small>Created by Jordan Walke, a software engineer at Facebook.</small></p>
+				</section>
+				<section>
+					<h2>React features:</h2>
+					<br>
+					<ul>
+						<li>Perfect to build big, fast Web apps</li>
+						<li>Virtual DOM</li>
+						<li>One direction data flow</li>
+						<li>Reusable components</li>
+					</ul>
+				</section>
+				<section>
+					<h2>React basics</h2>
+					<br>
+					<ul>
+						<li>JSX</li>
+						<li>Component</li>
+						<li>States</li>
+						<li>Lifecycle</li>
+						<li>Event handling</li>
+					</ul>
+				</section>
+				<section>
+					<section>
+						<h3>JSX</h3>
+					</section>
+					<section>
+						<p>JSX syntax:</p>
+						<pre><code class="hljs javascript">const element = <h1> Hello, world!</h1></code></pre>
+						<br>
+						<p>Nested tags:</p>
+						<pre><code class="hljs javascript">const element = <h1>
+  <p>Hello</p>
+  <p>world!</p>
+</h1></code></pre>
+						<br>
+						<p>Using expressions in JSX:</p>
+						<pre><code class="hljs javascript">const name = 'Josh Perez';
+const element = <h1>Hello, {name}</h1>;</code></pre>
+					</section>
+					<section>
+						<p>JSX after Babel:</p>
+						<pre><code class="hljs javascript">const element = React.createElement(
+  'h1',
+  {className: 'greeting'},
+  'Hello, world!'
+);</code></pre>
+
+						<br>
+						<p>React element object:</p>
+						<pre><code class="hljs javascript">const element = {
+  type: 'h1',
+  props: {
+    className: 'greeting',
+    children: 'Hello, world!'
+  }
+};
+</code></pre>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h3>Component</h3>
+					</section>
+					<section>
+						<p>Function component (stateless):</p>
+						<pre><code class="hljs javascript">function Welcome(props) {
+  return <h1>Hello, {props.name}</h1>;
+}</code></pre>
+						<br>
+						<p>Class component (stateful):</p>
+						<pre><code class="hljs javascript">class Welcome extends React.Component {
+  render() {
+    return <h1>Hello, {this.props.name}</h1>;
+  }
+}</code></pre>
+						<p>Root tag:</p>
+						<pre><code class="hljs javascript"><div id="root"></div></code></pre>
+					</section>
+					<section>
+						<p>Element as component:</p>
+						<pre><code class="hljs javascript">const element = <Welcome name="Guest" />;</code></pre>
+						<p>Props passing:</p>
+						<pre><code class="hljs javascript">function Welcome(props) {
+  return <h1>Hello, {props.name}</h1>;
+}</code></pre>
+						<p>Nested components:</p>
+						<pre><code class="hljs javascript">function App() {
+  return (
+    <div>
+      <Welcome name="Guest" />
+      <Welcome name="Friend" />
+      <Welcome name="Admin" />
+    </div>
+  );
+}</code></pre>
+					</section>
+					<section>
+						<h5>Rule:</h5>
+						<br>
+						<p>All React components must act like pure functions with respect to their props.</p>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h3>States</h3>
+					</section>
+					<section>
+						<p>State initialization:</p>
+						<pre><code class="hljs javascript">class NewClass extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {date: new Date()};
+  }
+
+  ...
+
+}</code></pre>
+					</section>
+					<section>
+						<h5>State rules:</h5>
+						<br>
+						<ul>
+							<li>
+								<p>Do not change state directly.</p>
+								<pre><code class="hljs javascript">this.setState({comment: 'Hello'});</code></pre>
+							</li>
+							<li>
+								<p>State updates may be asynchronous.</p>
+								<pre><code class="hljs javascript">this.setState((state, props) => ({
+  counter: state.counter + props.increment
+}));</code></pre>
+							</li>
+							<li>
+								<p>State updates are merged.</p>
+							</li>
+						</ul>
+					</section>
+					<section>
+						<p>Sharing state with props:</p>
+						<pre><code class="hljs javascript">function Person(props){return <p>props.name</p>;}
+
+class Greetings extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {value: 'Stranger'};
+  }
+  render() {
+    return (
+      <div>
+        <h1>Greetings</h1>
+        <Person name = {this.state.value} />
+      </div>
+    );}
+}</code></pre>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h3>Lifecycle</h3>
+					</section>
+					<section>
+						<h5>Lifecycle phases and methods:</h5>
+						<img src="./images/Screenshot_23.png" alt="image">
+					</section>
+				</section>
+				<section>
+					<section>
+						<h3>Event handling</h3>
+					</section>
+					<section>
+						<p>Event in HTML:</p>
+						<pre><code class="hljs javascript"><button onclick="setActive()">
+  Active
+</button></code></pre>
+						<br>
+						<p>Event in React:</p>
+						<pre><code class="hljs javascript"><button onClick={setActive}>
+  Active
+</button></code></pre>
+					</section>
+					<section>
+						<p>Event handler as class method:</p>
+						<pre><code class="hljs javascript">class Toggle extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {isToggleOn: true};
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick() {
+    this.setState(state => ({
+      isToggleOn: !state.isToggleOn
+    }));
+  }
+
+  ...
+
+}</code></pre>
+					</section>
+					<section>
+						<p>Public class fields syntax instead of .bind():</p>
+						<pre><code class="hljs javascript">class Toggle extends React.Component {
+
+  ...
+
+  handleClick = () => {
+    this.setState(state => ({
+      isToggleOn: !state.isToggleOn
+    }));
+  }
+
+  ...
+
+}</code></pre>
+					</section>
+					<section>
+						<p>Passing arguments to event:</p>
+						<pre style="width: 100%;"><code class="hljs javascript"><button onClick={(e) => this.deleteRow(id, e)}>Delete Row</button>
+<button onClick={this.deleteRow.bind(this, id)}>Delete Row</button></code></pre>
+					</section>
+				</section>
 			</div>
 		</div>
 
