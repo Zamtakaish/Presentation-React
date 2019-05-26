@@ -1,0 +1,166 @@
+	Hello. This presentation is short look at React.
+
+1) What is React?
+	- React is JavaScript libruary that was created by Jordan Walke, a software engineer at Facebook.
+	  It was released in open-source in 2013 and became extremely popular.
+	  
+2) The main react features are:
+	
+	- React is perfect to build big and fast web apps, like single-page or mobile applications, 
+	  it provides quick response and processing to rapidly changing data.
+	
+	- React uses Virtual DOM. It's in-memory clone of current DOM thee, where new structure changes applies. 
+	  Then React compare differences between current and virtual DOM trees and update only those parts 
+	  that was modified rather than rebuild all tree. The other side of the coin that Virtual DOM 
+	  requires additional memory to work.
+	  
+	- One direction data flow, that commonly called a “top-down” or “unidirectional” data flow. 
+	  All passed data flows only from parents to children. That makes code stable.
+	  
+	- Component structure in React allows to extract parts of DOM as components. 
+	  Components are isolated, changing one do not affect others, so they can be safely reused. 
+	  That is good time-saving effect.
+	  
+	2.2) To quick and simple create application with React, just type following line in your project (you need to have node.js installed):
+	{ create-react-app my-app}
+	It will create base project structure and install all needed dependencies.
+
+3) Let's take a look at some react basics: JSX, components, states, lifecycle and event handling.
+	3.1) What is JSX?
+	
+		{code}
+		- Such type of syntax that combine JS and HTML is called JSX -- the syntax extension to Javascript.
+		  It is not required syntax in React, we can still write functions instead it, 
+		  but JSX is well-readable, that's why it usually preferable.
+		  
+		- We can nest tags inside main tag:
+		{code}
+			 
+		- JSX allows to ebmbed variables, expressions or functions in construction by wrapping it in curly braces:
+		{code}
+		JSX is expression by itself, that means you can use JSX inside 'if' statements and 'for' loops, 
+		assign it to variables, accept it as arguments and return it from functions.
+		
+		- To show some analogy, let's look how JSX looks after compiling in Babel.
+		  As we can see, it becomes React.createElement() method:
+		{code}
+		
+		In depth, it essentially create an object like in code section below:
+		{code}
+		This object is  called React element. React read this object and uses it to construct DOM tree.
+		
+		- Rendering of elements performs by method ReactDOM.render()
+		We need to have a tag with id = "root" somewhere in our HTML. That is entry point for React DOM, from where 
+		all rest application build.
+		<div id="root"></div>
+		Then we can call ReactDOM.render() to attach our element to root DOM node:
+		const element = <h1>Hello, world</h1>;
+		ReactDOM.render(element, document.getElementById('root'));
+		Applications that was build with React usually have a single root DOM node. If react libruary was added in
+		existing project, there may be as many isolated root nodes as ypu like.
+		All elements are immutable, that means they cannot be modified after being created. The only way to change 
+		them is by re-rendering.
+		
+
+		-P.S. React doesnt require to use JSX syntax, but it still main type of syntax because it provide visual aid
+		while working with UI inside Javascript. Also it allows React to show more useful error and warning messages.
+	
+	3.2) Now let's talk about components.
+		
+		- It is build bricks of React API. They represented by special functions or  ES6 classes:
+		
+		- Component declared by function is called function component:
+		{code}
+		
+		- Component declared by class is called class component:
+		{code}
+		
+		  Component name should start with capital letter.
+		  Each component accept a single argument 'props' and returns React element.
+		  Class component also must have render() method, it is only one required method.
+		  We need to have a tag with id = "root" somewhere in our HTML. That is entry point for React DOM,
+		  from where all rest application build.
+		  
+		- Both above examples are equal according to React point of view, but classes has more features then functions.
+		  For instance, class component can have 'state' field, we shall learn ebout it later, so function component
+		  is stateless by default, class component can have or have not state field.
+		
+		- Elements can represent user-defined components:
+		{code}
+		  When react sees element that declared as user-defined component, it passes all of attributes
+		  as an object named 'props'.
+		{code}
+		
+		- Also components can be included in other components:
+		
+		- There is one strict rule in React:
+		  All React components must act like pure functions with respect to their props.
+		  That means 'props' passed to component must never be modified inside.
+	
+	3.3) I mentioned state property before, when told about component functions.
+	
+		- Unlike props, state is private and fully controlled by the component.
+		  Here we can see initialization of stat in class constructor. State value is an object:
+		{code}
+		  State is special property: React knows when it's value changes and calls method render().
+		
+		- There is some rules about state:
+		1) Do not change state directly. State should directly changed only once -- in constructor.
+		   The reason is when it reassigned somewhere else, the render() function will not be automatically called by React.
+		   For that case you should use setState() method:
+		{code}
+		2) State updates may be asynchronous. React may combine multiple setState() calls into a single update to inprove performance.
+		   Because props and state may be updated asynchronously, you should not rely on their values for calculating the next state.
+		   That can be fixed by using another form of setState(), that accepts a function rather than object:
+		   {code}
+		   This function recieve the previous state as the first argument, and the props at the time the update is applied as the second argument.
+		3) State updates are merged. That means when setState() occurs React change only those fields of the object that was modified. 
+		   That allows you to modify parts of state object independantly, if it needs.
+		
+		- We can pass the current state object from component as props to child components:
+		{code}		
+		  According to "top-down" data flow, props can be passed from parent to children.
+		  This is the only way for components to know about state of another component, 
+		  that's why state is often called local or encapsulated.
+	
+	3.4) Another important part of React structure os component's lifecycle.
+	
+		- Lifecycle methods -- special metods of React objects that allow execution of code at set points during the component's lifetime:
+		  There is 3 stages of component lifecycle: initialization, update and removing from DOM.
+		  In initialization phase first of all constructor is called and component is created.
+		  The next method componentWillMountcan be called when component is ready to be added in DOM tree.
+		  Render method is called to render component in Virtual DOM and then place it in real DOM.
+		  componentDidMount can be called when component appears in real DOM and it's initialization ends.
+		  
+		  The next stage is update. It performw when component's state was changed or parent's state changed and childs will be re-rendered.
+		  componentWillRecieveProps can be called when new props will be passed to component.
+		  shouldComponentUpdate can be called to prevent re-rendering element in some cases, if it needed.
+		  componentWillUpdate can be called when component received new props and ready to update.
+		  method render, same like in initialization.
+		  componentDidUpdate can be called after updating component is done.
+		  
+		  The last stage is component's removing,it has only one method:
+		  componentWilUnmount -- can be called before component will be totally removed from DOM.
+		  
+	3.5) Event handling
+	
+		- Handling events with React elements is very similar to handling events on DOM elements.		
+		{code}
+		  The difference between HTML and React declarations is that event names should be written in cmelCase
+		  and we should pass a function as event handler instead of string.
+		  
+		- When component is defined using class, a common pattern for event handler is to be a method on the class.		
+		{code}
+		  We can use .bind in coustructor to bind current component as context to future call in
+		  handler.
+	
+		- Or we can use the experimental public class fields syntax, and it will use class fields to correctly bind callbacks:
+		{code}
+
+		- We can pass arguments to event handlers in two ways: with arrow function or with bind.
+		{code}	
+		In both cases, the 'e' argument will be passed as a second argument after the 'id'.
+		With an arrow function, we have to pass it explicitly, but with bind any further arguments are automatically forwarded.
+		
+	End) Thanks for watching.
+	
